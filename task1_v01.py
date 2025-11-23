@@ -1,5 +1,9 @@
 from queue import Queue
 
+def clear_screen():
+    """Очищает экран консоли."""
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 class ServiceCenter:
     def __init__(self):
@@ -23,7 +27,17 @@ class ServiceCenter:
 
     def show_queue(self):
         """Показывает количество заявок в очереди."""
-        print(f"📦 Текущих заявок в очереди: {self.queue.qsize()}")
+        if self.queue.empty():
+            print("ℹ️ Очередь пуста.")
+            return
+        else:
+            items = list(self.queue.queue)
+            print("📝 Заявки в очереди:")
+            for item in items:
+                print(f" - {item}") 
+            print(f"📦 Текущих заявок в очереди: {self.queue.qsize()}")
+       
+            
 
 
 def main():
@@ -38,10 +52,16 @@ def main():
 
             choice = input("Выберите действие: ")
 
+            clear_screen()
+
             if choice == "1":
                 center.generate_request()
+                # показати очередь після створення заявки (необов'язково, але так краще видно зміни)
+                center.show_queue() 
             elif choice == "2":
                 center.process_request()
+                # показати очередь після створення заявки (необов'язково, але так краще видно зміни)
+                center.show_queue() 
             elif choice == "3":
                 center.show_queue()
             elif choice == "0":
