@@ -1,16 +1,12 @@
 import os
 from queue import Queue
 
-
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
 queue = Queue()
 req_id = 1
 
 
 def show_queue():
+    '''Виводить поточний стан черги.'''
     if queue.empty():
         print("Черга порожня.")
     else:
@@ -21,6 +17,7 @@ def show_queue():
 
 
 def add_request():
+    '''Додає нову заявку до черги.'''
     global req_id
     task = f"Request-{req_id}"
     queue.put(task)
@@ -29,40 +26,33 @@ def add_request():
 
 
 def process_request():
+    '''Обробляє (видаляє) заявку з черги.'''
     if queue.empty():
         return None
     return queue.get()
 
 
 def main():
-    clear()
-
-    while True:
-        print("=== Сервісна черга ===")
-        show_queue()
-
-        cmd = input("\n1 — Додати\n2 — Обробити\n0 — Вихід\n\n>>> ")
+    '''Головна функція для взаємодії з користувачем.'''
+    
+    while True:     
+        cmd = input("\nКоманди: \n1 — Додати\n2 — Обробити\n0 — Вихід\n\nВведіть команду >>> ")
 
         if cmd == "0":
-            clear()
             print("Завершення роботи.")
             break
-
-        clear()
-
         if cmd == "1":
-            task = add_request()
-            print(f"Додано: {task}\n")
-
+            task = add_request()           
         elif cmd == "2":
-            task = process_request()
-            if task:
-                print(f"Обробка: {task}\n")
-            else:
-                print("Черга порожня — нема заявок.\n")
-
+            task = process_request()     
         else:
             print("Невірна команда.\n")
+            continue
+        
+        print("=== Сервісна черга ===")
+        show_queue()
+        print("======================")
+        
 
 
 if __name__ == "__main__":
