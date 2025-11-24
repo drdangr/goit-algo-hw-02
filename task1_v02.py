@@ -20,16 +20,16 @@ def add_request():
     '''Додає нову заявку до черги.'''
     global req_id
     task = f"Request-{req_id}"
-    queue.put(task)
+    queue.put(task) # Додаємо заявку до черги
     req_id += 1
     return task
 
 
 def process_request():
     '''Обробляє (видаляє) заявку з черги.'''
-    if queue.empty():
-        return None
-    return queue.get()
+    if queue.empty(): # Якщо черга порожня
+        return None # Повертаємо None
+    return queue.get() 
 
 
 def main():
